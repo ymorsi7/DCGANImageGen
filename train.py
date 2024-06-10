@@ -60,8 +60,7 @@ def trainProcess(epoch_num, train_loader, D, G, optimD, optimG, dLoss, gLoss, lr
     torch.save(G, f'G_{epoch_num}_{lr}_{kernSize}-{padVal}.pt')
     torch.save(D, f'D_{epoch_num}_{lr}_{kernSize}-{padVal}.pt')
 
-    print(f'After {epoch_num} epochs with lr = {lr}, kernel size = {kernSize},
-          padding = {padVal}: \tDiscriminator Loss: {dError}\t Generator Loss: {gError}\n')
+    print(f'After {epoch_num} epochs with lr = {lr}, kernel size = {kernSize}, padding = {padVal}: \tDiscriminator Loss: {dError}\t Generator Loss: {gError}\n')
 
     return dLoss, gLoss
 
