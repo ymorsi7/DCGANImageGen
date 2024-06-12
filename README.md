@@ -2,7 +2,7 @@
 
 This repository contains code to train a Generative Adversarial Network (GAN) using PyTorch. The repository includes the generator and discriminator models, training process, and result visualization.
 
-[](https://www.youtube.com/watch?v=LSyDIURO6qo&ab_channel=YusufMorsi)
+[https://www.youtube.com/watch?v=LSyDIURO6qo&ab_channel=YusufMorsi](https://www.youtube.com/watch?v=LSyDIURO6qo&ab_channel=YusufMorsi)
 
 ## Table of Contents
 - [Introduction](#introduction)
