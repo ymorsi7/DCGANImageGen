@@ -26,8 +26,6 @@ def trainDiscriminator(discriminator, generator, optimizerD, realData, batchSize
     totalLoss = realLoss + fakeLoss
     return totalLoss
 
-    return totalLoss
-
 def trainGenerator(discriminator, generator, optimizerG, realData, batchSize, device):
     lossFunction = nn.BCELoss()
     generator.zero_grad()
