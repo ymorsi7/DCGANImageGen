@@ -2,6 +2,8 @@
 
 This repository contains code to train a Generative Adversarial Network (GAN) using PyTorch. The repository includes the generator and discriminator models, training process, and result visualization.
 
+[](https://www.youtube.com/watch?v=LSyDIURO6qo&ab_channel=YusufMorsi)
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Requirements](#requirements)
@@ -14,6 +16,8 @@ This repository contains code to train a Generative Adversarial Network (GAN) us
 
 ## Introduction
 This project demonstrates how to train a GAN with custom kernel sizes and padding values for the generator and discriminator. The training process includes setting up optimizers, applying weight initialization, and logging losses during training.
+
+
 
 ## Requirements
 - Python 3.x
