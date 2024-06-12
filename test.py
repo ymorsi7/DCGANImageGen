@@ -3,42 +3,35 @@ import seaborn as sns
 from model import GeneratorGAN, DiscriminatorGAN
 import matplotlib.pyplot as plt
 
-def testResults(test_loader, num_epochs, lr, kernSize, padVal):
-    '''
-    Computes test results of classifying real and fake images
-    
-    '''
-    genModel = GeneratorGAN(kernSize = 5, padVal = 2)
-    discrimModel = DiscriminatorGAN(kernSize = 5, padVal = 2)
+def testResults(dataLoader, totalEpochs, learningRate, kernelSize, paddingValue):
+    genNet = GeneratorGAN(kernSize=5, padVal=2)
+    discNet = DiscriminatorGAN(kernSize=5, padVal=2)
 
-    fake_output_list = []
-    real_output_list = []
+    fakeScores = []
+    realScores = []
 
-    genModel.load_state_dict(torch.load(f'G_{num_epochs}_{lr}_{kernSize}-{padVal}.pt'))
-    discrimModel.load_state_dict(torch.load(f'D_{num_epochs}_{lr}_{kernSize}-{padVal}.pt'))
+    genNet.load_state_dict(torch.load(f'G_{totalEpochs}_{learningRate}_{kernelSize}-{paddingValue}.pt'))
+    discNet.load_state_dict(torch.load(f'D_{totalEpochs}_{learningRate}_{kernelSize}-{paddingValue}.pt'))
 
-    for i, (images, _) in enumerate(test_loader):
-        fake_images = genModel(torch.randn(128, 100, 1, 1))
-        fake_output = discrimModel(fake_images)
-        real_output = discrimModel(images)
-        fake_output_list += fake_output.view(-1).tolist()
-        real_output_list += real_output.view(-1).tolist()
+    for batchIndex, (batchImages, _) in enumerate(dataLoader):
+        noiseVectors = torch.randn(128, 100, 1, 1)
+        generatedImages = genNet(noiseVectors)
+        fakePredictions = discNet(generatedImages).view(-1)
+        fakeScores.extend(fakePredictions.tolist())
+        realPredictions = discNet(batchImages).view(-1)
+        realScores.extend(realPredictions.tolist())
+    fakeResults = [1 if score >= 0.5 else 0 for score in fakeScores]
+    realResults = [1 if score >= 0.5 else 0 for score in realScores]
 
-    fake_output_results = [1 if val >= 0.5 else 0 for val in fake_output_list]
-    real_output_results = [1 if val >= 0.5 else 0 for val in real_output_list]
-    return fake_output_results, real_output_results
+    return fakeResults, realResults
 
-def testPlotting(fake_output_results, real_output_results):
-    '''
-    Plots confusion matrix using results from testResults
-    Inputs: fake_results, real_results from testResluts
-    '''
-    count = [[0, 0], [0, 0]]
-    for i in fake_output_results:
-        count[0][i] += 1
-    for j in real_output_results:
-        count[1][j] += 1
-    sns.heatmap(count, annot = True, fmt = 'd', cmap = "Blues", xticklabels = ['Fake', 'Real'], yticklabels = ['Fake', 'Real'])
+def testPlotting(fakeOutputResults, realOutputResults):
+    countMatrix = [[0, 0], [0, 0]]
+    for result in fakeOutputResults:
+        countMatrix[0][result] += 1
+    for result in realOutputResults:
+        countMatrix[1][result] += 1
+    sns.heatmap(countMatrix, annot=True, fmt='d', cmap="Blues", xticklabels=['Fake', 'Real'], yticklabels=['Fake', 'Real'])
     plt.title("Confusion Matrix of DCGAN Model After Being Trained on 200 Epochs")
     plt.xlabel("Actual")
     plt.ylabel("Predicted")
