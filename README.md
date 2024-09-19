@@ -29,4 +29,4 @@ This project demonstrates how to train a GAN with custom kernel sizes and paddin
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/gan-training-repo.git
+   git clone https://github.com/ymorsi7/DCGANImageGen.git
